@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const MONGO_URI = process.env.MONGO_URI;
 
 const authRoute = require("./routes/auth");
+const postRoute = require("./routes/page");
 
 const app = express();
 app.use(express.json());
@@ -17,6 +18,7 @@ mongoose.connect(MONGO_URI, {
 });
 
 app.use("/api/user", authRoute);
+app.use("/api/posts", postRoute);
 
 app.listen(PORT, () => {
   console.log("Listening on port 3000");
