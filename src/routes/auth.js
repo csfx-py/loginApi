@@ -39,15 +39,27 @@ router.post("/login", async (req, res) => {
 
   // check if user exists
   const user = await User.findOne({ email: req.body.email });
-  if (!user) return res.status(400).send("Email incorrect or not registered");
+  if (!user)
+    return res.send({
+      auth: false,
+      token: undefined,
+      message: "Email is not registered",
+    });
 
   // authenticate
   const authorised = await bcrypt.compare(req.body.password, user.password);
-  if (!authorised) return res.status(400).send("Email or password incorrect");
+  if (!authorised)
+    return res.send({
+      auth: false,
+      token: undefined,
+      message: "Incorrect email or password",
+    });
 
   // create token
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SEC);
-  res.header("auth-token", token).send(token);
+  res
+    .header("auth-token", token)
+    .send({ auth: true, token: token, message: "verified" });
 });
 
 module.exports = router;
