@@ -17,8 +17,8 @@ mongoose.connect(MONGO_URI, {
   useUnifiedTopology: true,
 });
 
-app.use("/api/user", authRoute);
-app.use("/api/posts", postRoute);
+app.use("/user", authRoute);
+app.use("/posts", postRoute);
 
 app.listen(PORT, () => {
   console.log("Listening on port 3000");
