@@ -59,7 +59,7 @@ router.post("/login", async (req, res) => {
   const token = jwt.sign(
     {
       _id: user._id,
-      exp: Math.floor(new Date(user.Date).getTime() / 1000) + 31536000,
+      exp: Math.floor(new Date(user.date).getTime() / 1000) + 31536000,
     },
     process.env.TOKEN_SEC
   );
