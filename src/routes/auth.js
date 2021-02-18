@@ -57,9 +57,8 @@ router.post("/login", async (req, res) => {
 
   // create token
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SEC, {
-    expiresIn: new Date(user.date).getTime() + 31556952000,
+    expiresIn: (Math.floor(new Date(user.date).getTime() + 31556952000)/1000),
   });
-  console.log(new Date(user.date).getTime() + 31556952000);
   res
     .header("auth-token", token)
     .send({ auth: true, token: token, message: "verified" });
