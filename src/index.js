@@ -12,14 +12,13 @@ const postRoute = require("./routes/page");
 const app = express();
 app.use(express.json());
 
-mongoose.connect(MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
 app.use("/user", authRoute);
 app.use("/posts", postRoute);
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log("Listening on port 3000");
+  await mongoose.connect(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
 });
