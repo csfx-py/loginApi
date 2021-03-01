@@ -17,7 +17,8 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("Connected to DB"));
+  .then(() => console.log("Connected to DB"))
+  .catch((err) => console.error(err));
 
 app.use("/user", authRoute);
 app.use("/posts", postRoute);
