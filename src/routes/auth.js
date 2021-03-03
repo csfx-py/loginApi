@@ -73,4 +73,8 @@ router.post("/login", async (req, res) => {
     .send({ auth: true, token: token, message: "verified" });
 });
 
+router.post("/connect", async (req, res) => {
+  res.send({ message: "connected" });
+});
+
 module.exports = router;
