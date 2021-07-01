@@ -5,6 +5,7 @@ const registerValidate = (data) => {
     name: Joi.string().min(4).required(),
     email: Joi.string().min(6).required().email(),
     password: Joi.string().alphanum().min(6).required(),
+    hotelID: Joi.string().min(2).required(),
   });
 
   return schema.validate(data, {});

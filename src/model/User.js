@@ -19,6 +19,12 @@ const userSchema = new mongoose.Schema({
     min: 6,
     max: 50,
   },
+  hotelID: {
+    type: String,
+    required: true,
+    min: 6,
+    max: 50,
+  },
   date: {
     type: Date,
     default: Date.now,

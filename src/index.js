@@ -14,13 +14,17 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose
-  .connect(MONGO_URI, {
+mongoose.connect(
+  MONGO_URI,
+  {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  })
-  .then(() => console.log("Connected to DB"))
-  .catch((err) => console.error(err));
+  },
+  (err) => {
+    if (err) return(console.error(err));
+    console.log("Connected to DB");
+  }
+);
 
 app.use("/user", authRoute);
 app.use("/posts", postRoute);

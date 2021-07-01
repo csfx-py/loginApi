@@ -12,8 +12,10 @@ router.post("/register", async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   //check existing user
-  const exists = await User.findOne({ email: req.body.email });
-  if (exists) return res.status(400).send("Email already registered");
+  const mailExists = await User.findOne({ email: req.body.email });
+  if (mailExists) return res.status(400).send("Email already registered");
+  const hotelExists = await User.findOne({ hotelID: req.body.hotelID });
+  if (hotelExists) return res.status(400).send("hotelID already taken");
 
   const salt = await bcrypt.genSalt(10);
   const hashPass = await bcrypt.hash(req.body.password, salt);
@@ -23,10 +25,11 @@ router.post("/register", async (req, res) => {
     name: req.body.name,
     email: req.body.email,
     password: hashPass,
+    hotelID: req.body.hotelID,
   });
   try {
     const savedUser = await user.save();
-    res.send({ user: user._id });
+    res.send(`Voila ${req.body.name}, your account is registered`);
   } catch (err) {
     res.status(400).send(err);
   }
@@ -64,6 +67,8 @@ router.post("/login", async (req, res) => {
   const token = jwt.sign(
     {
       _id: user._id,
+      name: user.name,
+      hotelID: user.hotelID,
       exp: Math.floor(new Date(user.date).getTime() / 1000) + 31536000,
     },
     process.env.TOKEN_SEC
